@@ -26,15 +26,13 @@ class WhatsApp:
         print('Loading...')
         chrome_options = Options()
         chrome_options.add_argument("disable-infobars")
-        driver = webdriver.Chrome(chrome_options=chrome_options)
-        return driver
+        return webdriver.Chrome(chrome_options=chrome_options)
 
     def _get_element(self, xpath, attempts=5, _count=0):
         '''Safe get_element method with multiple attempts'''
         try:
-            element = self.driver.find_element_by_xpath(xpath)
             #print('Found element!')
-            return element
+            return self.driver.find_element_by_xpath(xpath)
         except Exception as e:
             if _count<attempts:
                 sleep(1)
@@ -85,8 +83,7 @@ class WhatsApp:
             
     def get_all_messages(self):
         all_messages_element = self.driver.find_elements_by_class_name('_12pGw')
-        all_messages_text = [e.text for e in all_messages_element]
-        return all_messages_text
+        return [e.text for e in all_messages_element]
         
     def get_last_message(self):
         all_messages = self.get_all_messages()
